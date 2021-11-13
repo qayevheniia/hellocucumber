@@ -8,7 +8,9 @@ import lombok.Getter;
 
 @Getter
 public class Basket {
-
+    public Basket(int quantity) {
+        this.quantity = quantity;
+    }
 
     @JsonProperty("purchases")
     public Purchases purchases;

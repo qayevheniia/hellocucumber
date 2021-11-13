@@ -21,6 +21,8 @@ public class StepDefinitions {
     String tempraryToken = "om8QpXB9ZWu0ASOW3IdSmtemJi0/eESxflDuXBH/zJKOmYVb";
 
     Basket result;
+    Basket basketPost;
+    Goods goodsPost;
 
 //    @Given("Open google page")
 //    public void today_is_sunday() {
@@ -50,6 +52,9 @@ public class StepDefinitions {
         requestBody.put("quantity", quantity);
         System.out.println(requestBody);
 
+        basketPost = new Basket(quantity);
+        goodsPost = new Goods(goods_id);
+
         requestSpecification.body("[" + requestBody + "]");
         Response response = requestSpecification.post("https://uss.rozetka.com.ua/session/cart-se/add");
         response.then()
@@ -69,29 +74,29 @@ public class StepDefinitions {
     }
 
 
-    @Then("Verify quantity {int}")
-    public void verifyAcceptQuan(int quantity) {
+    @Then("Verify quantity")
+    public void verifyAcceptQuan() {
         System.out.println(result.quantity);
-        org.testng.Assert.assertTrue(result.quantity == quantity);
+        org.testng.Assert.assertTrue(result.quantity == basketPost.quantity);
 
     }
 
-    @Then("Verify id items {int}")
-    public void verifyAcceptId(int goods_id) {
+    @Then("Verify id items")
+    public void verifyAcceptId() {
         System.out.println(result.purchases.items.get(0).goods);
-        Assert.assertTrue(result.purchases.items.get(0).goods.getId() == goods_id);
+        Assert.assertTrue(result.purchases.items.get(0).goods.getId() == goodsPost.getId());
 
     }
 
-    @When("Remove from basket quantity {int}")
-    public void removeItem(int quantity){
+    @When("Remove from basket quantity")
+    public void removeItem(){
         RequestSpecification requestSpecification = RestAssured.given();
         requestSpecification.header("Content-Type", "application/json");
         requestSpecification.header("Cookie", cookie);
         requestSpecification.header("Csrf-Token", tempraryToken);
 
         JSONObject requestBody = new JSONObject();
-        requestBody.put("purchase_id", quantity);
+        requestBody.put("purchase_id", basketPost.quantity);
         System.out.println(requestBody);
 
         requestSpecification.body("[" + requestBody + "]");
@@ -106,7 +111,7 @@ public class StepDefinitions {
 
     @Then("Verify that basket is empty quantity {int}")
         public void verifyEmptyBasket(int quantity){
-        org.testng.Assert.assertTrue(result.quantity == quantity);
+        Assert.assertEquals(result.quantity, quantity);
 
     }
 }

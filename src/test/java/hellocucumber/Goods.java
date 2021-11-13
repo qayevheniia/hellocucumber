@@ -6,6 +6,10 @@ import io.cucumber.messages.internal.com.fasterxml.jackson.annotation.JsonProper
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 public class Goods {
+    public Goods(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
