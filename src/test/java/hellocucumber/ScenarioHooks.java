@@ -1,6 +1,7 @@
 package hellocucumber;
 
 import com.codeborne.selenide.Configuration;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
 public class ScenarioHooks {
@@ -9,4 +10,5 @@ public class ScenarioHooks {
     private void setUpbrowser90(){
         Configuration.browser = "chrome";
     }
+
 }
